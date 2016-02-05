@@ -1,0 +1,69 @@
+<?php
+
+/**
+*
+* Implements hook_block_info().
+*
+*/
+function meteoapi_block_info() {
+	$blocks['meteoapi'] =array(
+		'info' => t('meteoapi'),
+		'cache' => DRUPAL_CACHE_PER_ROLE,
+		);
+	return $blocks;
+}
+
+ /**
+ * 
+ * @return 
+ *   
+ */
+function meteoapi_contents(){
+
+$meteoinfo = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q=Milan,Italy&appid=44db6a862fba0b067b1930da0d769e98');
+//$meteoconvert=utf8_encode($meteoinfo);
+$meteo=json_decode($meteoinfo, true);
+//var_dump($meteo);
+$weather = "Cielo:" . " " . $meteo['weather'][0]['main'];
+$description ="Dettagli:" . " " . $meteo['weather'][0]['description'];
+$country = "Nazione:" . "  " . $meteo['sys']['country'];
+$city = "Città:" . " " . $meteo['name'];
+$temp = $meteo['main']['temp'];
+$temp_c="Temperatura:"  . " " . round($temp - 273.15) . "°";
+$icona = $meteo['weather'][0]['icon'];
+$link= '<a ><img src="http://openweathermap.org/img/w/'.$icona.'.png" width="80" height="80" alt="icona"></a>';
+//var_dump($link);
+$arraymeteo = array(
+  'weather' => $weather,
+  'description' => $description,
+  'country' => $country,
+  'city' => $city,
+  'temp' => $temp_c,
+  'image' =>$link);
+return $arraymeteo;
+}
+
+/**
+ * Implements hook_block_view().
+ * 
+ * Prepares the contents of the block.
+ */
+function meteoapi_block_view($delta = '') {
+  switch ($delta) {
+    case 'meteoapi':
+      $block['subject'] = t('Meteo');
+      if (user_access('access content')) {
+        $result = meteoapi_contents();
+        $items = $result;
+        if (empty($items)) {
+          $block['content'] = t('Meteo non disponibile.');  
+        } 
+        else {
+          $block['content'] = theme('item_list', array(
+            'items' => $items));
+         ;
+        }
+      }
+    return $block;
+  }
+}

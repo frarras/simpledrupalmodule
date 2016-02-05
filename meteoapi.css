@@ -1,0 +1,31 @@
+#block-meteoapi-meteoapi li {
+	box-shadow: #23527c;
+	font-size: 15px;
+	background: white;
+	color: #23527c;
+	border-radius: 5px;
+}
+
+
+#block-meteoapi-meteoapi  a{
+	color: #6D6D6D;
+}
+#block-meteoapi-meteoapi h2 {
+	padding-left: 30px;
+	margin:10px;
+	font-size: 25px;
+
+
+}
+.highlighted.jumbotron {
+	background: white ;
+}
+
+#block-meteoapi-meteoapi ul {
+ 	 list-style-type: none;
+}
+#block-meteoapi-meteoapi img {
+	display: block;
+    	margin-left: 30px;
+    	margin-right: auto
+}

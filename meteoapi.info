@@ -1,0 +1,5 @@
+name = meteoapi
+description = A block module that lists meteo informations.
+core = 7.x
+stylesheets[all][] = meteoapi.css
+
